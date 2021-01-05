@@ -1,5 +1,6 @@
-const Sequelize = require('sequelize');
-const database = require('../config');
+const { Sequelize }= require('sequelize');
+const {database} = require('../config');
+console.log(database.database)
 const sequelize = new Sequelize(
     database.database,
     database.username,
@@ -12,7 +13,7 @@ const sequelize = new Sequelize(
                 encrypt: false,
                 validateBulkLoadParameters: true,
             }
-            }
+        }
     }
 );
 module.exports = sequelize

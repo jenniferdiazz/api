@@ -1,5 +1,5 @@
 const {Model, Datatypes} = require('sequelize');
-const sequelize = require('../db');
+const sequelize = require('../database/db');
 class Usuario extends Model {}
 Usuario.init({
     CodUsuario: Datatypes.INT,
@@ -14,7 +14,9 @@ Usuario.init({
 
 },{
     sequelize,
-    freezeTableName: true,
+    //freezeTableName: true,
+    tableName: 'Usuario',
+    modelName: 'Usuario',
     timestamps: false
 });
 

@@ -1,17 +1,40 @@
 const router = require('express').Router();
 const Regrx = require('../models/Regrx');
 
+router.get('/home',(req,res)=>{
+    //render recibe ejs y transforma a html
+    res.render('index')
 
+
+});
+
+
+
+router.post('/', async (req,res)=>{
+    
+    
+   
+    res.send('agregado');
+    //se almacena con save...pero es una promesa
+    //async await permite ejecutar eventos asincronos sin usar promesas o callback
+    
+    
+    
+    
+})
 router.get('/', async(req,res)=>{
+    
+    console.log(req.query.vin)
+    //render recibe ejs y transforma a html
     
     try {
         const regrx= await Regrx.findAll({
         where:{
-            Vehiculo_VIN: "1M1AW07Y0JM089058",
+            Vehiculo_VIN: req.query.vin,
             Generico_CodGenerico: 25,
             
         },
-        limit: 49
+        limit: 9
     })
        
     res.json(regrx)
@@ -19,11 +42,12 @@ router.get('/', async(req,res)=>{
     } catch(e){
         console.log(e)
         res.status(500).json({
-            message:'Something goes wrong',
+            message:'No Search Results. Something goes wrong. try again',
             data:{}
         })
 
     }
+    
        
 });
 

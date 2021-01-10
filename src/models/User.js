@@ -1,22 +1,48 @@
-const {Model, Datatypes} = require('sequelize');
+const Sequelize  = require("sequelize");
 const sequelize = require('../database/db');
-class Usuario extends Model {}
-Usuario.init({
-    CodUsuario: Datatypes.INT,
-    Empresa_CodEmpresa : Datatypes.INT,
-    Perfil_CodPerfil : Datatypes.INT,
-    Alias :  Datatypes.STRING,
-    Nombre: Datatypes.STRING,
-    Apellido: Datatypes.STRING,
-    Contrasena : Datatypes.STRING,
-    Correo: Datatypes.STRING,
-    Telefono: Datatypes.STRING,
+const Usuario = sequelize.define('Usuario',{
+    CodUsuario:{ 
+        type: Sequelize.INTEGER,
+        primaryKey:true,
+    },
+    Empresa_CodEmpresa:{ 
+        type: Sequelize.INTEGER,
+        primaryKey:true,
+    },
+    Perfil_CodPerfil:{ 
+        type: Sequelize.INTEGER,
+        primaryKey:true,
+    },
+    Alias:{ 
+        type: Sequelize.TEXT,
+        primaryKey:true,
+    },
+    Nombre:{ 
+        type: Sequelize.TEXT,
+        primaryKey:true,
+    },
+    Apellido:{ 
+        type: Sequelize.TEXT,
+        primaryKey:true,
+    },
+    Contrasena:{ 
+        type: Sequelize.TEXT,
+        primaryKey:true,
+    },
+    Correo:{ 
+        type: Sequelize.TEXT,
+        primaryKey:true,
+    },
+    Telefono:{ 
+        type: Sequelize.INTEGER,
+        primaryKey:true,
+    },
 
 },{
     sequelize,
     //freezeTableName: true,
     tableName: 'Usuario',
-    modelName: 'Usuario',
+  
     timestamps: false
 });
 

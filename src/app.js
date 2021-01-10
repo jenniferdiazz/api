@@ -4,7 +4,9 @@ const app = express();
 const sequelize = require('../src/database/db');
 const base = require('../src/models/Regrx')
 const path = require('path');
-const bodyParser = require('body-parser')
+const bodyParser = require('body-parser');
+const auth = require('../src/routes/auth');
+const Regrx = require('../src/routes/Regrx');
 
 
 //const Regrx = require('../src/routes/Regrx')
@@ -35,5 +37,6 @@ app.listen(PORT, function(){
     })
 })
 
-const Regrx = require('../src/routes/Regrx')
+app.use('/api', auth );
  app.use('/api', Regrx);
+ 

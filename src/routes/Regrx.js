@@ -1,27 +1,18 @@
 const router = require('express').Router();
 const Regrx = require('../models/Regrx');
 
-router.get('/home',(req,res)=>{
-    //render recibe ejs y transforma a html
-    res.render('index')
+
+// router.get('/home',(req,res)=>{
+//     //render recibe ejs y transforma a html
+//     res.render('index')
 
 
-});
+// });
 
 
 
-router.post('/', async (req,res)=>{
-    
-    
-   
-    res.send('agregado');
-    //se almacena con save...pero es una promesa
-    //async await permite ejecutar eventos asincronos sin usar promesas o callback
-    
-    
-    
-    
-})
+
+
 router.get('/', async(req,res)=>{
     
     console.log(req.query.vin)

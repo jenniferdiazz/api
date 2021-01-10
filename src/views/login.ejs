@@ -14,7 +14,7 @@
     <div class="container">
       <h1 class="text-center">Login</h1>
    
-    <form action="/api/home" method="GET">
+    <form action="/api/login" method="POST">
         <div class="form-row">
           <div class="form-group col-md-4">
             <label for="" name="">Usuario :</label>
@@ -22,7 +22,7 @@
           </div>
           <div class="form-group col-md-4">
             <label for="">Contraseña :</label>
-            <input type="password" class="form-control" id="Contrasena" name="Contrasena">
+            <input type="password" class="form-control" id="Contrasena" name="Contrasena" required>
           </div>
         <div class="text-center">
           <button type="submit" class="btn btn-primary">Guardar</button>

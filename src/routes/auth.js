@@ -2,20 +2,20 @@ const router = require('express').Router();
 const User = require('../models/User');
 const jwt = require('jsonwebtoken');
 
-router.get('/home',(req,res)=>{
-    //render recibe ejs y transforma a html
-    res.render('index')
+// router.get('/home',(req,res)=>{
+//     //render recibe ejs y transforma a html
+//     res.render('index')
 
 
-});
+// });
 router.get('/login',(req,res)=>{
-    res.json("holaa")
+    //res.json("holaa")
     //render recibe ejs y transforma a html
-    //res.render('login')
+    res.render('login')
 
 
 });
-router.post('/login', async(req,res)=>{
+router.post('/login', async(req,res, next)=>{
     const {Alias, Contrasena} = req.body;
     console.log(req.body)
     try {
@@ -32,17 +32,28 @@ router.post('/login', async(req,res)=>{
         
         
     })
+    if (user == null){
+        return res.status(401).json({
+            error: "User not exist "
+        });
+
+    }
    
     // if user is found make sure the email and password match
     // create authenticate method in user model
-    if (user.Contrasena != Contrasena) {
+    else if (user.Contrasena != Contrasena) {
         return res.status(401).json({
             error: "Email and password dont match"
         });
     }
         else{
             let token = jwt.sign({CodUsuario:user.CodUsuario}, process.env.JWT_KEY);
-            res.json({token});//retornamos solamente el token y es el que 
+            res.header("auth-token", token).json({
+                error: null,
+                data:{token}
+            })
+            //res.json({token});//retornamos solamente el token y es el que 
+            //next();
             //usaremos para acceder a nuestra API
        
     //res.json(user)

@@ -7,6 +7,8 @@ const path = require('path');
 const bodyParser = require('body-parser');
 const auth = require('../src/routes/auth');
 const Regrx = require('../src/routes/Regrx');
+const router = require('express').Router();
+const jwtAuth = require('../src/middleware/jwtAuth');
 
 
 //const Regrx = require('../src/routes/Regrx')
@@ -37,6 +39,13 @@ app.listen(PORT, function(){
     })
 })
 
-app.use('/api', auth );
- app.use('/api', Regrx);
+inicio = router.get('/home',(req,res)=>{
+       
+        res.render('index')
+    
+    
+});
+
+app.use('/api', auth);
+app.use('/api', jwtAuth, Regrx);
  

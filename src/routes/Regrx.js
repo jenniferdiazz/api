@@ -14,6 +14,7 @@ const Regrx = require('../models/Regrx');
 
 
 router.get('/', async(req,res)=>{
+    console.log("vehiculo:")
     
     console.log(req.query.vin)
     //render recibe ejs y transforma a html

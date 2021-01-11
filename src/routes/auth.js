@@ -2,19 +2,13 @@ const router = require('express').Router();
 const User = require('../models/User');
 const jwt = require('jsonwebtoken');
 
-// router.get('/home',(req,res)=>{
-//     //render recibe ejs y transforma a html
-//     res.render('index')
-
-
-// });
 router.get('/login',(req,res)=>{
     res.json({
         error: null,
         data: {
             title: 'mi ruta protegida',
             //este user viene de la validate-token
-            user: req.user
+            user: req.usuario
         }
     })
 });
@@ -37,13 +31,11 @@ router.post('/login', async(req,res, next)=>{
     })
     if (user == null){
         return res.status(401).json({
-            error: "User not exist "
+            error: "Username does not exist"
         });
 
     }
-   
-    // if user is found make sure the email and password match
-    // create authenticate method in user model
+
     else if (user.Contrasena != Contrasena) {
         return res.status(401).json({
             error: "Email and password dont match"
@@ -55,11 +47,8 @@ router.post('/login', async(req,res, next)=>{
                 error: null,
                 data:{token}
             })
-            //res.json({token});//retornamos solamente el token y es el que 
             next();
-            //usaremos para acceder a nuestra API
        
-    //res.json(user)
 }
 
     } catch(e){
@@ -70,40 +59,11 @@ router.post('/login', async(req,res, next)=>{
         })
 
     }
-    //render recibe ejs y transforma a html
     
 
 
 });
 
-// router.get('/', async(req,res)=>{
-    
-//     console.log(req.query.vin)
-//     //render recibe ejs y transforma a html
-    
-//     try {
-//         const regrx= await Regrx.findAll({
-//         where:{
-//             Vehiculo_VIN: req.query.vin,
-//             Generico_CodGenerico: 25,
-            
-//         },
-//         limit: 9
-//     })
-       
-//     res.json(regrx)
-
-//     } catch(e){
-//         console.log(e)
-//         res.status(500).json({
-//             message:'No Search Results. Something goes wrong. try again',
-//             data:{}
-//         })
-
-//     }
-    
-       
-// });
 
 module.exports = router; 
 

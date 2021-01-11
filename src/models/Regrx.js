@@ -13,9 +13,6 @@ const Regrx = sequelize.define('RegRx',{
     Vehiculo_VIN:{ 
         type: Sequelize.TEXT
     },
-    // Lugar_CodLugar:{
-    //     type: Sequelize.INTEGER,
-    //     },
     Generico_CodGenerico:{ 
         type: Sequelize.INTEGER,
     },
@@ -28,27 +25,7 @@ const Regrx = sequelize.define('RegRx',{
     Lon: {
         type: Sequelize.INTEGER,
     },
-    // CodFecha: {
-    //     type: Sequelize.INTEGER,
-    // },
-    // Estado: {
-    //     type: Sequelize.INTEGER,
-    // },
-    // Generico1:{
-    //     type: Sequelize.INTEGER,
-    //     },
-    // Generico2: {
-    //     type: Sequelize.INTEGER,
-    // },
-    // Generico3: {
-    //     type: Sequelize.INTEGER,
-    // },
-    // Generico4: {
-    //     type: Sequelize.INTEGER,
-    // },
-    // Generico5: {
-    //     type: Sequelize.INTEGER,
-    // },
+   
 
 },{
     // sequelize,

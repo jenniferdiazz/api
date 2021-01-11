@@ -2,7 +2,6 @@ const express = require('express');
 const morgan= require('morgan');
 const app = express();
 const sequelize = require('../src/database/db');
-const base = require('../src/models/Regrx')
 const path = require('path');
 const bodyParser = require('body-parser');
 const auth = require('../src/routes/auth');
@@ -11,17 +10,12 @@ const router = require('express').Router();
 const jwtAuth = require('../src/middleware/jwtAuth');
 
 
-//const Regrx = require('../src/routes/Regrx')
-
 //setting
 const PORT = process.env.PORT || 3000;
  
 const cors = require("cors");
 app.use(cors());
 app.use(bodyParser.json());
-app.set('views', path.join(__dirname, 'views'));
-//motor de plantilla ejs
-app.set('view engine', 'ejs');
 //middlewares: funciones que se ejecutan antes de que lleguen a las rutas, para usarlas usamos morgan
 app.use(morgan('dev'));
 //entiende los datos html
@@ -44,5 +38,5 @@ app.listen(PORT, function(){
 app.use(express.static(__dirname + "/public"));
 
 app.use('/api', auth);
-app.use('/api', Regrx);
+app.use('/api', jwtAuth,Regrx);
  

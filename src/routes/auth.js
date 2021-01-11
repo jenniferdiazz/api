@@ -9,11 +9,14 @@ const jwt = require('jsonwebtoken');
 
 // });
 router.get('/login',(req,res)=>{
-    //res.json("holaa")
-    //render recibe ejs y transforma a html
-    res.render('login')
-
-
+    res.json({
+        error: null,
+        data: {
+            title: 'mi ruta protegida',
+            //este user viene de la validate-token
+            user: req.user
+        }
+    })
 });
 router.post('/login', async(req,res, next)=>{
     const {Alias, Contrasena} = req.body;
@@ -53,7 +56,7 @@ router.post('/login', async(req,res, next)=>{
                 data:{token}
             })
             //res.json({token});//retornamos solamente el token y es el que 
-            //next();
+            next();
             //usaremos para acceder a nuestra API
        
     //res.json(user)

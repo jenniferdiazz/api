@@ -15,7 +15,9 @@ const jwtAuth = require('../src/middleware/jwtAuth');
 
 //setting
 const PORT = process.env.PORT || 3000;
-
+ 
+const cors = require("cors");
+app.use(cors());
 app.use(bodyParser.json());
 app.set('views', path.join(__dirname, 'views'));
 //motor de plantilla ejs
@@ -39,13 +41,8 @@ app.listen(PORT, function(){
     })
 })
 
-inicio = router.get('/home',(req,res)=>{
-       
-        res.render('index')
-    
-    
-});
+app.use(express.static(__dirname + "/public"));
 
 app.use('/api', auth);
-app.use('/api', jwtAuth, Regrx);
+app.use('/api', Regrx);
  

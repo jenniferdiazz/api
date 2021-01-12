@@ -1,6 +1,6 @@
 const { Sequelize }= require('sequelize');
 const {database} = require('../config');
-console.log(database.database)
+
 const sequelize = new Sequelize(
     database.database,
     database.username,
@@ -12,6 +12,7 @@ const sequelize = new Sequelize(
               
                 encrypt: false,
                 validateBulkLoadParameters: true,
+                "requestTimeout": 300000
             }
         }
     }

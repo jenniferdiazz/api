@@ -27,11 +27,11 @@ app.use(bodyParser.urlencoded({extended:false}));
 
 
 app.listen(PORT, function(){
-    console.log(`La app ha arrancado en el puerto${PORT}`);
+    console.log(`The application has started on the port${PORT}`);
     sequelize.sync().then(()=>{
-        console.log("Nos hemos conectado a la base de datos");
+        console.log("Connected to the database");
     }).catch(error =>{
-        console.log('se ha producido un error', error)
+        console.log('A fatal error has occurred', error)
     })
 })
 
@@ -39,4 +39,5 @@ app.use(express.static(__dirname + "/public"));
 
 app.use('/api', auth);
 app.use('/api', jwtAuth,Regrx);
+ 
  

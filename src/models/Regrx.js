@@ -1,9 +1,5 @@
 const Sequelize  = require("sequelize");
 const sequelize = require('../database/db');
-console.log("MODEL")
-console.log(sequelize)
-
-
 
 const Regrx = sequelize.define('RegRx',{
     CodRegRx:{ 
@@ -28,10 +24,9 @@ const Regrx = sequelize.define('RegRx',{
    
 
 },{
-    // sequelize,
+     sequelize,
     tableName: 'RegRx',
-    // modelName: 'RegRx',
-    //freezeTableName: true,
+    
     timestamps: false
 });
 

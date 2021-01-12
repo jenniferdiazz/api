@@ -14,7 +14,7 @@ router.get('/login',(req,res)=>{
 });
 router.post('/login', async(req,res, next)=>{
     const {Alias, Contrasena} = req.body;
-    console.log(req.body)
+    
     try {
         const user= await User.findOne({
         where:{
@@ -60,8 +60,6 @@ router.post('/login', async(req,res, next)=>{
 
     }
     
-
-
 });
 
 

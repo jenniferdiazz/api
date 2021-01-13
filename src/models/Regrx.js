@@ -1,5 +1,6 @@
 const Sequelize  = require("sequelize");
 const sequelize = require('../database/db');
+const Vehiculo = require("./Vehiculo");
 
 const Regrx = sequelize.define('RegRx',{
     CodRegRx:{ 
@@ -7,7 +8,9 @@ const Regrx = sequelize.define('RegRx',{
         primaryKey:true,
     },
     Vehiculo_VIN:{ 
-        type: Sequelize.TEXT
+        type: Sequelize.STRING,
+        allowNull: false,
+        foreignKey: true
     },
     Generico_CodGenerico:{ 
         type: Sequelize.INTEGER,
@@ -29,6 +32,10 @@ const Regrx = sequelize.define('RegRx',{
     
     timestamps: false
 });
+
+ //Vehiculo.hasMany(Regrx);
+Regrx.belongsTo(Vehiculo, {foreignKey: 'Vehiculo_VIN', targetKey: 'VIN'});
+//Vehiculo.hasMany(Regrx,{foreignKey: 'VIN'});
 
 Regrx.sync();
 

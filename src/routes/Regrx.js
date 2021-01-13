@@ -1,5 +1,6 @@
 const router = require('express').Router();
 const Regrx = require('../models/Regrx');
+const Vehiculo = require('../models/Vehiculo');
 const Sequelize  = require("sequelize");
 const {Op} = require("sequelize");
 const DataTypes = require('sequelize/lib/data-types')
@@ -8,25 +9,60 @@ DataTypes.DATE.prototype._stringify = function _stringify(date, options) {
   date = this._applyTimezone(date, options)
   return date.format('YYYY-MM-DD HH:mm:ss.SSS')
 }
-const startedDate = "2020-06-01 01:03:50"
-const endDate = "2020-06-10 00:00:00"
 
 router.get('/', async(req,res)=>{
-    console.log("vehiculo:")
-    
-    console.log(req.query.startedDate)
-    console.log(req.query.endDate)
-    console.log(req.query.startedDate > req.query.endDate)
     require= req.query
-    
-    
-    //const startedDate = "2020-06-01 01:03:50"
-     //const endDate = "2020-06-10 00:00:00"
     try {
-        if((req.query.endDate=="" || req.query.endDate==undefined) && (req.query.startedDate=="" || req.query.startedDate==undefined)){
+        if(require.patente != "")
+        {
+            if((require.endDate=="" || require.endDate==undefined) && (require.startedDate=="" || require.startedDate==undefined)){
+            const regrx= await Regrx.findAll({
+                include:{
+                    model: Vehiculo,
+                    where:{
+                        Patente: {[Op.eq]: require.patente }
+
+                    }
+                },
+                where:{
+                    
+                    Generico_CodGenerico: 25,
+                },
+                limit: 4
+            })
+            console.log("lleno patente")
+            res.json({
+                data: regrx
+            })
+            }else{
+                const regrx= await Regrx.findAll({
+                    include:{
+                        model: Vehiculo,
+                        where:{
+                            Patente: {[Op.eq]: require.patente }
+    
+                        }
+                    },
+                    where:{
+                        Generico_CodGenerico: 25,
+                        Fecha_Hora: {[Op.between]:[require.startedDate, require.endDate]}
+                        
+                    },
+                    limit: 4
+                })
+                console.log("lleno patente")
+                res.json({
+                    data: regrx
+                })
+
+            }
+
+        }
+        else{
+            if((require.endDate=="" || require.endDate==undefined) && (require.startedDate=="" || require.startedDate==undefined)){
             const regrx= await Regrx.findAll({
                 where:{
-                    Vehiculo_VIN: req.query.vin,
+                    Vehiculo_VIN: require.vin,
                     Generico_CodGenerico: 25,
                 },
                 limit: 4
@@ -36,21 +72,22 @@ router.get('/', async(req,res)=>{
                 data: regrx
             })
     
-        }else{
+            }else{
             const regrx= await Regrx.findAll({
                 where:{
                     
-                    Vehiculo_VIN: req.query.vin,
+                    Vehiculo_VIN: require.vin,
                     Generico_CodGenerico: 25,
-                    Fecha_Hora: {[Op.between]:[req.query.startedDate, req.query.endDate]}
+                    Fecha_Hora: {[Op.between]:[require.startedDate, require.endDate]}
                 },
                 limit: 4
             })
-            console.log("no vacio")
+            console.log("lleno fecha")
             res.json({
                 data: regrx
             })
     
+            }
         }
        
     } catch(e){

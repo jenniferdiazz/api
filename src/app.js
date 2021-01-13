@@ -2,7 +2,6 @@ const express = require('express');
 const morgan= require('morgan');
 const app = express();
 const sequelize = require('../src/database/db');
-const path = require('path');
 const bodyParser = require('body-parser');
 const auth = require('../src/routes/auth');
 const Regrx = require('../src/routes/Regrx');
@@ -21,9 +20,6 @@ app.use(morgan('dev'));
 //entiende los datos html
 app.use(bodyParser.urlencoded({extended:false}));
 
-//rutas
-//router
-//app.use('/api', Regrx);
 
 
 app.listen(PORT, function(){

@@ -12,18 +12,117 @@ DataTypes.DATE.prototype._stringify = function _stringify(date, options) {
 
 router.get('/', async(req,res)=>{
     require= req.query
-    console.log(require.patente)
+    console.log(require.generico)
     if(require.patente === null || require.patente===undefined){
         require.patente=""
     }
+    if(require.endDate===undefined || require.endDate===null){
+        require.endDate=""
+    }
+    if(require.startedDate===undefined || require.startedDate===null){
+        require.startedDate=""
+    }
+    if(require.generico===undefined || require.generico===null){
+        require.generico=""
+    }
     try {
-        if(require.patente != ""){
-        {
-            if((require.endDate=="" || require.endDate==undefined) && (require.startedDate=="" || require.startedDate==undefined)){
-            const regrx= await Regrx.findAll({
-                include:{
-                    model: Vehiculo,
+        if (require.generico == ""){
+
+            if(require.patente != ""){
+                {
+                    if(require.endDate=="" && require.startedDate==""){
+                    const regrx= await Regrx.findAll({
+                        include:{
+                            model: Vehiculo,
+                            where:{
+                            Patente: {[Op.eq]: require.patente }
+                        }
+                    },
+                    
+                    order: [
+                        ['Fecha_Hora']
+                      ],
+                    limit: 10
+                    })
+                    console.log("lleno patente")
+                    res.json({
+                    data: regrx
+                    })
+                }else{
+                    const regrx= await Regrx.findAll({
+                        include:{
+                            model: Vehiculo,
+                            where:{
+                                Patente: {[Op.eq]: require.patente }
+                            },
+                            order: [
+                                ['Fecha_Hora']
+                              ],
+                        },
+                        where:{
+                            
+                            CodFecha: {[Op.between]:[require.startedDate, require.endDate]}
+                        },
+                        order: [
+                            ['Fecha_Hora']
+                          ],
+                        limit: 10
+                    })
+                    console.log("lleno patente")
+                    res.json({
+                        data: regrx
+                    })
+                }
+            }}
+            else{
+                if(require.endDate=="" && require.startedDate==""){
+                const regrx= await Regrx.findAll({
                     where:{
+                        Vehiculo_VIN: require.vin,
+                    
+                    },
+                    order: [
+                        ['Fecha_Hora']
+                      ],
+                    limit: 10
+                })
+                res.json({
+                    data : regrx})
+                
+        
+                }else{
+                const regrx= await Regrx.findAll({
+                    where:{
+                        Vehiculo_VIN: require.vin,
+                       CodFecha: {[Op.between]:[require.startedDate, require.endDate]}
+                    },
+                    order: [
+                        ['Fecha_Hora']
+                      ],
+                    limit: 10
+                })
+                console.log("lleno fecha")
+                res.json({
+                    data: regrx
+                })
+                }
+            }
+
+
+
+
+
+            }
+        else{
+
+        
+            if(require.patente != ""){
+            {
+                if(require.endDate=="" && require.startedDate==""){
+                const regrx= await Regrx.findAll({
+                    include:{
+                        model: Vehiculo,
+                        where:{
                         Patente: {[Op.eq]: require.patente }
                     }
                 },
@@ -35,11 +134,11 @@ router.get('/', async(req,res)=>{
                     ['Fecha_Hora']
                   ],
                 limit: 10
-            })
-            console.log("lleno patente")
-            res.json({
+                })
+                console.log("lleno patente")
+                res.json({
                 data: regrx
-            })
+                })
             }else{
                 const regrx= await Regrx.findAll({
                     include:{
@@ -64,12 +163,10 @@ router.get('/', async(req,res)=>{
                 res.json({
                     data: regrx
                 })
-
             }
-
         }}
         else{
-            if((require.endDate=="" || require.endDate==undefined) && (require.startedDate=="" || require.startedDate==undefined)){
+            if(require.endDate=="" && require.startedDate==""){
             const regrx= await Regrx.findAll({
                 where:{
                     Vehiculo_VIN: require.vin,
@@ -100,8 +197,11 @@ router.get('/', async(req,res)=>{
             res.json({
                 data: regrx
             })
-    
             }
+        }
+
+
+
         }
        
     } catch(e){
@@ -113,6 +213,7 @@ router.get('/', async(req,res)=>{
         })
 
     }
+
       
 });
 

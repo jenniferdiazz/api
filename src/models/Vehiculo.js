@@ -7,26 +7,7 @@ const Vehiculo = sequelize.define('Vehiculo',{
         primaryKey:true,
         allowNull: false, 
     },
-    // Modelo_CodModelo:{ 
-    //     type: Sequelize.INTEGER,
-        
-    // },
-    // Empresa_CodEmpresa:{ 
-    //     type: Sequelize.INTEGER,
-        
-    // },
-    // Patente:{ 
-    //     type: Sequelize.TEXT,
-        
-    // },
-    // EstIgnicion:{ 
-    //     type: Sequelize.INTEGER,
-        
-    // },
-    // EstadoServicio:{ 
-    //     type: Sequelize.INTEGER,
-        
-    // },
+ 
     
 
 },{

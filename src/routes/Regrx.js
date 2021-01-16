@@ -4,6 +4,7 @@ const Vehiculo = require('../models/Vehiculo');
 const Sequelize  = require("sequelize");
 const {Op} = require("sequelize");
 const DataTypes = require('sequelize/lib/data-types')
+const MotorRegrx = require('../models/MotorRegrx');
 
 DataTypes.DATE.prototype._stringify = function _stringify(date, options) {
   date = this._applyTimezone(date, options)
@@ -27,27 +28,22 @@ router.get('/', async(req,res)=>{
     }
     try {
         if (require.generico == ""){
-
             if(require.patente != ""){
-                {
-                    if(require.endDate=="" && require.startedDate==""){
+                if(require.endDate=="" && require.startedDate==""){
                     const regrx= await Regrx.findAll({
                         include:{
                             model: Vehiculo,
                             where:{
                             Patente: {[Op.eq]: require.patente }
-                        }
-                    },
-                    
-                    order: [
-                        ['Fecha_Hora']
-                      ],
-                    limit: 10
+                            }
+                        },
+                        order: [
+                            ['Fecha_Hora']
+                        ],
+                        limit: 10
                     })
                     console.log("lleno patente")
-                    res.json({
-                    data: regrx
-                    })
+                    res.json({data: regrx})
                 }else{
                     const regrx= await Regrx.findAll({
                         include:{
@@ -60,7 +56,6 @@ router.get('/', async(req,res)=>{
                               ],
                         },
                         where:{
-                            
                             CodFecha: {[Op.between]:[require.startedDate, require.endDate]}
                         },
                         order: [
@@ -69,138 +64,183 @@ router.get('/', async(req,res)=>{
                         limit: 10
                     })
                     console.log("lleno patente")
-                    res.json({
-                        data: regrx
-                    })
+                    res.json({data: regrx})
                 }
-            }}
+            }
             else{
                 if(require.endDate=="" && require.startedDate==""){
-                const regrx= await Regrx.findAll({
-                    where:{
-                        Vehiculo_VIN: require.vin,
-                    
-                    },
-                    order: [
-                        ['Fecha_Hora']
-                      ],
-                    limit: 10
-                })
-                res.json({
-                    data : regrx})
-                
-        
-                }else{
-                const regrx= await Regrx.findAll({
-                    where:{
-                        Vehiculo_VIN: require.vin,
-                       CodFecha: {[Op.between]:[require.startedDate, require.endDate]}
-                    },
-                    order: [
-                        ['Fecha_Hora']
-                      ],
-                    limit: 10
-                })
-                console.log("lleno fecha")
-                res.json({
-                    data: regrx
-                })
-                }
-            }
-
-
-
-
-
-            }
-        else{
-
-        
-            if(require.patente != ""){
-            {
-                if(require.endDate=="" && require.startedDate==""){
-                const regrx= await Regrx.findAll({
-                    include:{
-                        model: Vehiculo,
+                    const regrx= await Regrx.findAll({
                         where:{
-                        Patente: {[Op.eq]: require.patente }
-                    }
-                },
-                where:{
-                    
-                    Generico_CodGenerico: require.generico,
-                },
-                order: [
-                    ['Fecha_Hora']
-                  ],
-                limit: 10
-                })
-                console.log("lleno patente")
-                res.json({
-                data: regrx
-                })
-            }else{
-                const regrx= await Regrx.findAll({
-                    include:{
-                        model: Vehiculo,
-                        where:{
-                            Patente: {[Op.eq]: require.patente }
+                            Vehiculo_VIN: require.vin,
                         },
                         order: [
                             ['Fecha_Hora']
-                          ],
+                        ],
+                        limit: 10
+                    })
+                    res.json({data : regrx})
+                }else{
+                    const regrx= await Regrx.findAll({
+                        where:{
+                            Vehiculo_VIN: require.vin,
+                            CodFecha: {[Op.between]:[require.startedDate, require.endDate]}
+                        },
+                        order: [
+                            ['Fecha_Hora']
+                        ],
+                        limit: 10
+                    })
+                console.log("lleno fecha")
+                res.json({data: regrx})
+                }
+            }
+        }
+        else if(require.generico=="25"){
+            if(require.patente != ""){
+                if(require.endDate=="" && require.startedDate==""){
+                    const regrx= await Regrx.findAll({
+                        include:{
+                            model: Vehiculo,
+                            where:{
+                            Patente: {[Op.eq]: require.patente }
+                        }
                     },
                     where:{
-                        Generico_CodGenerico: require.generico,
-                        CodFecha: {[Op.between]:[require.startedDate, require.endDate]}
+                    Generico_CodGenerico: 25,
                     },
                     order: [
                         ['Fecha_Hora']
-                      ],
+                    ],
                     limit: 10
                 })
                 console.log("lleno patente")
-                res.json({
-                    data: regrx
-                })
+                res.json({data: regrx})
+                }else{
+                    const regrx= await Regrx.findAll({
+                        include:{
+                            model: Vehiculo,
+                            where:{
+                                Patente: {[Op.eq]: require.patente }
+                            },
+                            order: [
+                                ['Fecha_Hora']
+                            ],
+                        },
+                        where:{
+                            Generico_CodGenerico: 25,
+                            CodFecha: {[Op.between]:[require.startedDate, require.endDate]}
+                        },
+                        order: [
+                            ['Fecha_Hora']
+                        ],
+                        limit: 10
+                    })
+                    console.log("lleno patente")
+                    res.json({data: regrx})
+                }
             }
-        }}
-        else{
-            if(require.endDate=="" && require.startedDate==""){
-            const regrx= await Regrx.findAll({
+            else{
+                if(require.endDate=="" && require.startedDate==""){
+                const regrx= await Regrx.findAll({
                 where:{
-                    Vehiculo_VIN: require.vin,
-                    Generico_CodGenerico: require.generico,
+                    //Vehiculo_VIN: require.vin,
+                    Vehiculo_VIN: "1M1AW07Y0JM089058",
+                    //Generico_CodGenerico: require.generico,
+                    Generico_CodGenerico: 25,
                 },
-                order: [
-                    ['Fecha_Hora']
-                  ],
-                limit: 10
-            })
-            res.json({
-                data : regrx})
-            
-    
-            }else{
-            const regrx= await Regrx.findAll({
-                where:{
-                    Vehiculo_VIN: require.vin,
-                    Generico_CodGenerico: require.generico,
-                   CodFecha: {[Op.between]:[require.startedDate, require.endDate]}
-                },
-                order: [
-                    ['Fecha_Hora']
-                  ],
-                limit: 10
-            })
-            console.log("lleno fecha")
-            res.json({
-                data: regrx
-            })
+                // order: [
+                //     ['Fecha_Hora']
+                //   ],
+                limit: 5
+                })
+                res.json({data : regrx})
+                }else{
+                    const regrx= await Regrx.findAll({
+                        where:{
+                            Vehiculo_VIN: require.vin,
+                            Generico_CodGenerico: 25,
+                            CodFecha: {[Op.between]:[require.startedDate, require.endDate]}
+                        },
+                        order: [
+                            ['Fecha_Hora']
+                        ],
+                        limit: 10
+                    })
+                    console.log("lleno fecha")
+                    res.json({data: regrx})
+                }
             }
         }
-
-
+        else if(require.generico=="54"){
+            if(require.patente != ""){
+                if(require.endDate=="" && require.startedDate==""){
+                    const motorregrx= await MotorRegrx.findAll({
+                        include:{
+                            model: Vehiculo,
+                            where:{
+                            Patente: {[Op.eq]: require.patente }
+                        }
+                    },
+                    where:{
+                    Generico_CodGenerico: 54,
+                    },
+                    order: [
+                        ['Fecha_Hora']
+                    ],
+                    limit: 10
+                })
+                res.json({data: motorregrx})
+                }else{
+                    const motorregrx= await MotorRegrx.findAll({
+                        include:{
+                            model: Vehiculo,
+                            where:{
+                                Patente: {[Op.eq]: require.patente }
+                            },
+                            order: [
+                                ['Fecha_Hora']
+                            ],
+                        },
+                        where:{
+                            Generico_CodGenerico: 54,
+                            CodFecha: {[Op.between]:[require.startedDate, require.endDate]}
+                        },
+                        order: [
+                            ['Fecha_Hora']
+                        ],
+                        limit: 10
+                    })
+                    res.json({data: motorregrx})
+                }
+            }
+            else{
+                if(require.endDate=="" && require.startedDate==""){
+                const motorregrx= await MotorRegrx.findAll({
+                where:{
+                    Vehiculo_VIN: require.vin,
+                    Generico_CodGenerico: 54,
+                },
+                order: [
+                    ['Fecha_Hora']
+                  ],
+                limit: 5
+                })
+                res.json({data : motorregrx})
+                }else{
+                    const motorregrx= await MotorRegrx.findAll({
+                        where:{
+                            Vehiculo_VIN: require.vin,
+                            Generico_CodGenerico: 54,
+                            CodFecha: {[Op.between]:[require.startedDate, require.endDate]}
+                        },
+                        order: [
+                            ['Fecha_Hora']
+                        ],
+                        limit: 10
+                    })
+                    res.json({data: motorregrx})
+                }
+            }
 
         }
        
@@ -209,12 +249,8 @@ router.get('/', async(req,res)=>{
         res.status(500).json({
             message:'No Search Results. Something goes wrong. try again',
             error: e
-
         })
-
     }
-
-      
 });
 
 

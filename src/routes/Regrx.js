@@ -42,7 +42,7 @@ router.get('/', async(req,res)=>{
                         ],
                         limit: 10
                     })
-                    console.log("lleno patente")
+                    
                     res.json({data: regrx})
                 }else{
                     const regrx= await Regrx.findAll({
@@ -63,7 +63,7 @@ router.get('/', async(req,res)=>{
                           ],
                         limit: 10
                     })
-                    console.log("lleno patente")
+              
                     res.json({data: regrx})
                 }
             }
@@ -90,7 +90,7 @@ router.get('/', async(req,res)=>{
                         ],
                         limit: 10
                     })
-                console.log("lleno fecha")
+               
                 res.json({data: regrx})
                 }
             }
@@ -113,7 +113,7 @@ router.get('/', async(req,res)=>{
                     ],
                     limit: 10
                 })
-                console.log("lleno patente")
+                
                 res.json({data: regrx})
                 }else{
                     const regrx= await Regrx.findAll({
@@ -135,7 +135,7 @@ router.get('/', async(req,res)=>{
                         ],
                         limit: 10
                     })
-                    console.log("lleno patente")
+                  
                     res.json({data: regrx})
                 }
             }
@@ -143,14 +143,14 @@ router.get('/', async(req,res)=>{
                 if(require.endDate=="" && require.startedDate==""){
                 const regrx= await Regrx.findAll({
                 where:{
-                    //Vehiculo_VIN: require.vin,
-                    Vehiculo_VIN: "1M1AW07Y0JM089058",
-                    //Generico_CodGenerico: require.generico,
-                    Generico_CodGenerico: 25,
+                    Vehiculo_VIN: require.vin,
+                    //Vehiculo_VIN: "1M1AW07Y0JM089058",
+                    Generico_CodGenerico: require.generico,
+                    //Generico_CodGenerico: 25,
                 },
-                // order: [
-                //     ['Fecha_Hora']
-                //   ],
+                order: [
+                    ['Fecha_Hora']
+                  ],
                 limit: 5
                 })
                 res.json({data : regrx})
@@ -166,7 +166,7 @@ router.get('/', async(req,res)=>{
                         ],
                         limit: 10
                     })
-                    console.log("lleno fecha")
+                    
                     res.json({data: regrx})
                 }
             }

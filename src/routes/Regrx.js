@@ -6,7 +6,8 @@ Serializer = require('sequelize-to-json')
 const {Op} = require("sequelize");
 const DataTypes = require('sequelize/lib/data-types')
 const MotorRegrx = require('../models/MotorRegrx');
-const fs = require('fs')
+const fs = require('fs');
+const sequelize = require('../database/db');
 
 
 DataTypes.DATE.prototype._stringify = function _stringify(date, options) {
@@ -42,11 +43,13 @@ router.get('/', async(req,res)=>{
                             order: [
                                 ['Fecha_Hora','DESC']
                             ],
+                              
                         },
                         order: [
                             ['Fecha_Hora','DESC']
                         ],
-                        limit: 499
+                        limit: 499,
+                        
                     })
                     
                     res.json(regrx)
@@ -61,9 +64,11 @@ router.get('/', async(req,res)=>{
                                 ['Fecha_Hora','DESC']
                               ],
                         },
-                        where:{
-                            CodFecha: {[Op.between]:[require.startedDate, require.endDate]}
-                        },
+                        where:
+                           
+                            sequelize.where(sequelize.cast(sequelize.col('Fecha_hora'),'DATETIME',), {[Op.between]:[require.startedDate, require.endDate]}),  
+                            //CodFecha: {[Op.between]:[require.startedDate, require.endDate]}
+                        
                         order: [
                             ['Fecha_Hora','DESC']
                           ],
@@ -87,10 +92,15 @@ router.get('/', async(req,res)=>{
                     res.json(regrx)
                 }else{
                     const regrx= await Regrx.findAll({
-                        where:{
-                            Vehiculo_VIN: require.vin,
-                            CodFecha: {[Op.between]:[require.startedDate, require.endDate]}
+                        where: {
+                            [Op.and]:
+                        sequelize.where(sequelize.cast(sequelize.col('Fecha_hora'),'DATETIME',), {[Op.between]:[require.startedDate, require.endDate]}),  
+                            
+                           Vehiculo_VIN: require.vin
                         },
+                            //sequelize.where(sequelize.fn('DATE', sequelize.col('CodFecha')), '2016-10-10'),
+                            //CodFecha: {[Op.between]:[require.startedDate, require.endDate]}
+                        
                         order: [
                             ['Fecha_Hora','DESC']
                         ],
@@ -135,9 +145,12 @@ router.get('/', async(req,res)=>{
                                 ['Fecha_Hora','DESC']
                             ],
                         },
+                        
                         where:{
+                            [Op.and]:
+                            sequelize.where(sequelize.cast(sequelize.col('Fecha_hora'),'DATETIME',), {[Op.between]:[require.startedDate, require.endDate]}),  
                             Generico_CodGenerico: 25,
-                            CodFecha: {[Op.between]:[require.startedDate, require.endDate]}
+                            //CodFecha: {[Op.between]:[require.startedDate, require.endDate]}
                         },
                         order: [
                             ['Fecha_Hora','DESC']
@@ -166,9 +179,11 @@ router.get('/', async(req,res)=>{
                 }else{
                     const regrx= await Regrx.findAll({
                         where:{
+                            [Op.and]:
+                            sequelize.where(sequelize.cast(sequelize.col('Fecha_hora'),'DATETIME',), {[Op.between]:[require.startedDate, require.endDate]}),  
                             Vehiculo_VIN: require.vin,
                             Generico_CodGenerico: 25,
-                            CodFecha: {[Op.between]:[require.startedDate, require.endDate]}
+                            //CodFecha: {[Op.between]:[require.startedDate, require.endDate]}
                         },
                         order: [
                             ['Fecha_Hora','DESC']
@@ -205,9 +220,9 @@ router.get('/', async(req,res)=>{
                   
                   for(i=0; i<resp.length; i++){
                     json= json+
-                        '{ "Vehiculo_VIN": "'+ resp[i].Vehiculo_VIN +
+                        '{ "Fecha_Hora": "'+resp[i].Fecha_Hora+ 
+                        '", "Vehiculo_VIN": "'+ resp[i].Vehiculo_VIN +
                          '", "Generico_CodGeenerico": "'+ resp[i].Generico_CodGenerico+
-                         '", "Fecha_Hora": "'+resp[i].Fecha_Hora+ 
                          '", "Lat": "' + resp[i].Lat +
                          '", "Lon": "'+ resp[i].Lon +
                          '", "Generico": { "Generico1": "'+ resp[i].Generico1+
@@ -264,8 +279,10 @@ router.get('/', async(req,res)=>{
                             ],
                         },
                         where:{
+                        [Op.and]:
+                        sequelize.where(sequelize.cast(sequelize.col('Fecha_hora'),'DATETIME',), {[Op.between]:[require.startedDate, require.endDate]}),  
                             Generico_CodGenerico: 54,
-                            CodFecha: {[Op.between]:[require.startedDate, require.endDate]}
+                            //CodFecha: {[Op.between]:[require.startedDate, require.endDate]}
                         },
                         order: [
                             ['Fecha_Hora','DESC']
@@ -276,9 +293,9 @@ router.get('/', async(req,res)=>{
                       
                       for(i=0; i<resp.length; i++){
                         json= json+
-                            '{ "Vehiculo_VIN": "'+ resp[i].Vehiculo_VIN +
+                        '{ "Fecha_Hora": "'+resp[i].Fecha_Hora+ 
+                        '", "Vehiculo_VIN": "'+ resp[i].Vehiculo_VIN +
                              '", "Generico_CodGeenerico": "'+ resp[i].Generico_CodGenerico+
-                             '", "Fecha_Hora": "'+resp[i].Fecha_Hora+ 
                              '", "Lat": "' + resp[i].Lat +
                              '", "Lon": "'+ resp[i].Lon +
                              '", "Generico": { "Generico1": "'+ resp[i].Generico1+
@@ -343,9 +360,9 @@ router.get('/', async(req,res)=>{
               
               for(i=0; i<resp.length; i++){
                 json= json+
-                    '{ "Vehiculo_VIN": "'+ resp[i].Vehiculo_VIN +
+                '{ "Fecha_Hora": "'+resp[i].Fecha_Hora+ 
+                '", "Vehiculo_VIN": "'+ resp[i].Vehiculo_VIN +
                      '", "Generico_CodGeenerico": "'+ resp[i].Generico_CodGenerico+
-                     '", "Fecha_Hora": "'+resp[i].Fecha_Hora+ 
                      '", "Lat": "' + resp[i].Lat +
                      '", "Lon": "'+ resp[i].Lon +
                      '", "Generico": { "Generico1": "'+ resp[i].Generico1+
@@ -394,9 +411,11 @@ router.get('/', async(req,res)=>{
                 }else{
                     const motorregrx= await MotorRegrx.findAll({
                         where:{
+                            [Op.and]:
+                            sequelize.where(sequelize.cast(sequelize.col('Fecha_hora'),'DATETIME',), {[Op.between]:[require.startedDate, require.endDate]}),  
                             Vehiculo_VIN: require.vin,
                             Generico_CodGenerico: 54,
-                            CodFecha: {[Op.between]:[require.startedDate, require.endDate]}
+                            //CodFecha: {[Op.between]:[require.startedDate, require.endDate]}
                         },
                         order: [
                             ['Fecha_Hora', 'DESC']
@@ -407,9 +426,9 @@ router.get('/', async(req,res)=>{
                       
                       for(i=0; i<resp.length; i++){
                         json= json+
-                            '{ "Vehiculo_VIN": "'+ resp[i].Vehiculo_VIN +
+                        '{ "Fecha_Hora": "'+resp[i].Fecha_Hora+ 
+                        '", "Vehiculo_VIN": "'+ resp[i].Vehiculo_VIN +
                              '", "Generico_CodGeenerico": "'+ resp[i].Generico_CodGenerico+
-                             '", "Fecha_Hora": "'+resp[i].Fecha_Hora+ 
                              '", "Lat": "' + resp[i].Lat +
                              '", "Lon": "'+ resp[i].Lon +
                              '", "Generico": { "Generico1": "'+ resp[i].Generico1+
